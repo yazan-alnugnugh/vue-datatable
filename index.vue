@@ -68,8 +68,7 @@
                             </td>
 
                             <td v-for="(column, index) in tableColumns"  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <label class="inline-flex items-center mt-3">
-                                    {{model[column.column]}}
+                                <label class="inline-flex items-center mt-3" v-html="model[column.column]">
                                 </label>
                             </td>
 

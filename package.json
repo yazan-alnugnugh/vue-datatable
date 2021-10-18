@@ -1,6 +1,6 @@
 {
   "name": "@yazan.alnughnugh/vue-datatable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "this datatable to make your programming more easy ",
   "main": "index.js",
   "scripts": {

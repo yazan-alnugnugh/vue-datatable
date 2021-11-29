@@ -3,9 +3,9 @@
     <div class="flex flex-col">
 
         <data-table-alert ref="dataTableAlert"></data-table-alert>
-        <search></search>
+        <search v-if="!config.hasOwnProperty('search') || config.search.show != false"></search>
 
-        <tool-bar :list="selectedList"  ></tool-bar>
+        <tool-bar :list="selectedList"></tool-bar>
 
 
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -28,11 +28,11 @@
 
                             </th>
 
-                                 <!--           head of table             -->
+                            <!--           head of table             -->
                             <th v-if="column.show != false" v-for="(column, index) in tableColumns" scope="col" class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">
                                 {{ column.label }}
                                 <i v-if="column.sort.sortable != false"
-                                    @click="sortAble().changeSortDir({
+                                   @click="sortAble().changeSortDir({
                                 'index': index,
                                 'event': $event,
                                 'dir': column.sort.sortDir,
@@ -47,9 +47,9 @@
 
 
 
-<!--                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--                                Title-->
-<!--                            </th>-->
+                            <!--                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
+                            <!--                                Title-->
+                            <!--                            </th>-->
 
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Edit</span>
@@ -68,7 +68,8 @@
                             </td>
 
                             <td v-for="(column, index) in tableColumns"  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <label class="inline-flex items-center mt-3" v-html="model[column.column]">
+                                <label class="inline-flex items-center mt-3">
+                                    {{model[column.column]}}
                                 </label>
                             </td>
 
@@ -80,33 +81,6 @@
                             </td>
 
 
-<!--                            <td class="px-6 py-4 whitespace-nowrap">-->
-<!--                                <div class="flex items-center">-->
-<!--                                    <div class="flex-shrink-0 h-10 w-10">-->
-<!--                                        <img class="h-10 w-10 rounded-full object-cover avatar shadow-lg" :src="model.img" alt="" />-->
-<!--                                    </div>-->
-<!--                                    <div class="ml-4">-->
-<!--                                        <div class="text-sm font-medium text-gray-900">-->
-<!--                                            {{ model.title}}-->
-<!--                                        </div>-->
-<!--                                        <div class="text-sm text-gray-500">-->
-<!--                                            {{ model.email }}-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--&lt;!&ndash;                            <td class="px-6 py-4 whitespace-nowrap">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="text-sm text-gray-900">{{ person.title }}</div>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <div class="text-sm text-gray-500">{{ person.department }}</div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </td>&ndash;&gt;-->
-<!--                            <td class="px-6 py-4 whitespace-nowrap">-->
-<!--                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">-->
-<!--                    Active-->
-<!--                  </span>-->
-<!--                            </td>-->
-<!--                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-->
-<!--                                {{ model.role }}-->
-<!--                            </td>-->
                         </tr>
                         </tbody>
                     </table>
@@ -126,7 +100,57 @@ import Alert from "./Alert";
 import ToolBar from "./ToolBar";
 
 export default {
-    props: ['columns', 'config'],
+    props: {
+        config: {
+            type: Object,
+            default: function(){
+                return {
+                    url: '/',
+                    toolbar:{
+                        show: true,
+                        delete: {
+                            url: `/`,
+                            show: true
+                        }
+                    },
+                    search: {
+                        show: true
+                    }
+                }
+            }
+        },
+
+        perPage: {
+            type: Object,
+            default: function(){
+                return {
+                    show: true,
+                    counts: [10, 25, 50, 100, 250],
+                }
+            }
+        },
+
+        filters:{
+            type:Object,
+            default: function(){
+                return {
+                    selection:{
+                        show: true,
+                        data: []
+
+                    }
+                }
+            }
+
+        },
+
+        columns:{
+            type: Array,
+            default: function(){
+                return []
+            }
+        }
+    },
     data() {
         return {
             requests: {
@@ -201,7 +225,7 @@ export default {
                 dirToggle: (index, dir) =>{
 
                     let newDir = this.sortAble().dirExists(dir);
-                        newDir = newDir == 'asc' ? 'desc' : 'asc';
+                    newDir = newDir == 'asc' ? 'desc' : 'asc';
                     this.tableColumns[index].sort.sortDir = newDir;
 
                     return newDir;
@@ -217,7 +241,7 @@ export default {
             }
 
         }
-       ,
+        ,
         selectAll(){
             const $selectedInputs = document.getElementsByClassName('selectInput');
 
@@ -230,7 +254,24 @@ export default {
         removeSelection:function(){
             document.getElementById('SelectAll').click();
 
-        }
+        },
+
+        // to delete single element using ajax
+        delete :function(){
+            setTimeout(() =>{
+                let $delete = document.querySelectorAll('.delete');
+                [...$delete].forEach((cur) => {
+                    cur.onclick = () =>{
+                        axios.delete(cur.dataset.route).then( res => {
+                            this.dataAlert.setShow().setStatus('success').setMessage( res.data.message).hide(5000);
+                            this.all();
+                        });
+                    }
+                })
+            }, 500);
+
+
+        },
 
     },
     mounted() {
@@ -238,8 +279,16 @@ export default {
 
         this.dataAlert = this.$refs.dataTableAlert;
 
+        this.delete();
+
+
     }
 }
+
+
+
+
+
 </script>
 
 <style>

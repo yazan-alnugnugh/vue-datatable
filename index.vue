@@ -187,6 +187,7 @@ export default {
 
                     // handle success
                     this.collection = response.data.collection;
+                    this.delete();
                     // if(response.data.success) this.collection  = JSON.parse(response.data.collection);
 
                 }).catch( (error) => {
@@ -279,7 +280,7 @@ export default {
 
         this.dataAlert = this.$refs.dataTableAlert;
 
-        this.delete();
+
 
 
     }

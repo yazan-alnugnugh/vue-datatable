@@ -1,6 +1,6 @@
 {
   "name": "@yazan.alnughnugh/vue-datatable",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Laravel and Vue packages to create Data Table",
   "main": "index.js",
   "scripts": {

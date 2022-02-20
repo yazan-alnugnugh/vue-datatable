@@ -4,6 +4,8 @@
   2. [Installation and Setup](2-Installation-and-Setup.md)
   3. [Configuration](3-Configuration.md)
   4. [Usage](4-Usage.md)
+  5. [Donations](https://github.com/yazan-alnugnugh/laravel-datatable/blob/master/_docs/Donations/crypto/index.md)
+
 
 ## Configuration
 
@@ -37,8 +39,8 @@
 | `url ` | String | "/" | (required) json data url |
 | `toolbar` | Object | {} |  to setup toolbar |
 | `toolbar.show` | Bool | true | to disable or enable toolbar |
-| `toolbar.delete` | Object | {} | to add delete all option to toolbar |
-| `toolbar.delete.url` | String | '/' | to set delete all url |
+| `toolbar.delete` | Object | {} | to add "delete all" option to toolbar |
+| `toolbar.delete.url` | String | '/' | to set "delete all" url |
 | `toolbar.delete.show` | Bool | true | to disable or enable delete button |
 | `search` | Object | {} | to setup search input |
 | `search.show` | Bool | true | disable or enable the feature |
@@ -73,7 +75,8 @@
       :filters="{
             selection:{
                    show: true,
-                   data:[
+                   data:[ 
+                        // you can add here more than one section filter
                        {
                        label: 'Admins',
                        relation: 'createdBy',
@@ -128,7 +131,7 @@
 | --- | --- | --- | --- |
 | `label ` | String | '' |  table column head name |
 | `column` | String | '' |  database column name |
-| `show` | Bool | true | to add toolbar config |
+| `show` | Bool | true | disable or enable column |
 | `sort` | Object | {} | is responsible for sort column |
 | `sort.sortable` | Bool | true | disable or enable sorting  |
 | `sort.sortColumn` | String | '' | column name for sorting |

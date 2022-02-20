@@ -5,7 +5,7 @@
   3. [Configuration](3-Configuration.md)
   4. [Usage](4-Usage.md)
         * [Basic Usage](#Basic-Usage)
-        * [relation include](#relation-include)
+        * [add a relation](#add-a-relation)
         * [Searching](#Searching)
         * [Sorting](#Sorting)
         * [Selection filter](#Selection-filter-for-relations)
@@ -13,6 +13,8 @@
         * [Action buttons](#Action-buttons)
         * [Delete](#Delete)
         * [Delete All](#Delete-All)
+  5. [Donations](https://github.com/yazan-alnugnugh/laravel-datatable/blob/master/_docs/Donations/crypto/index.md)
+        
         
 
 ## Usage
@@ -25,7 +27,7 @@
 
 create grid class 
 ```bash
-php artisan make:grid-class exampleGrid
+php artisan make:data-grid exampleGrid
 ```
 
 #### step 2 
@@ -132,7 +134,7 @@ use the data-table component in your blade
 
 ```
 
-## relation include
+## add a relation
 
 ### **server side**
 
@@ -176,7 +178,7 @@ add relation column to columns prop
 
 ### **server side**
 
-to start using search input we will specific columns we want to search within by default search column will be ``id``
+To start using search input we need to specify columns we want to search through, by default search column will be ```id```
 
 add ``` $searchColumns``` property to start use search feature
 
@@ -192,7 +194,7 @@ add ``` $searchColumns``` property to start use search feature
 
 to use the sort feature we will add a sort object
 
-there is 3 property inside sort
+there ar 3 property inside sort
 
 1- ````sort.sortable```` : if you want to use a column for sorting 
 
@@ -247,8 +249,7 @@ to use rows count per page we need to use ````perPage```` prop
 
 ### **client side**
 
-to add select input for relation column you will add filters prop as below
-```selection``` the object contains all filter selection data
+to add select input for relation column you will add filters prop as below , the ```selection``` object contains all filter selection data
  
  ````show```` to disable or enable selection filter 
  
@@ -287,16 +288,16 @@ to add select input for relation column you will add filters prop as below
 ## Data mapping
 ### **server side**
 
-if you would to restructure data we provide this method for you
+if you would to restructure data, we provide this method for you
 
-in first we will add ```$isMapping``` property equal true
+in first, we will add ```$isMapping``` property equal true
 ```php
 // app/DataGrid/PostGrid.php
 
    protected $isMapping = true;
 ```
-after that, we will add this method is contains callback 
-function return array contain our collection 
+after that, we will add this method that contains callback
+ function return array contain our collection
 ```php
 // app/DataGrid/PostGrid.php
 
@@ -319,8 +320,10 @@ function return array contain our collection
 
 ### **server side**
 
-to add action buttons to rows we will use an action array to do that
-we can add associative array to action array with two value button structure and visibility true or false
+To add action buttons to rows we will use an action array to do that, we can add associative array
+ to action array with two value:
+  - button structure 
+  - visibility true or false.
 
 ```php
 // app/DataGrid/PostGrid.php
@@ -347,8 +350,8 @@ we can add associative array to action array with two value button structure and
 
 ### **server side**
 
-to use delete action just we can insert our delete button and add 
-```delete```class to Html tag and ```data-path``` attribute include path to delete element As shown below 
+To use delete action we can just insert our delete button and add ```delete``` class
+ to Html tag and ```data-path``` attribute include path to delete element As shown below
 ```php
 // app/DataGrid/PostGrid.php
 
@@ -377,7 +380,7 @@ to use delete action just we can insert our delete button and add
 
 ### **client side**
 
-inside toolbar object will add url property contain our delete all route
+inside toolbar object we will add url property contains our 'delete all' route
 ```html
 // resources/posts/index.blade.php
 
@@ -395,8 +398,8 @@ inside toolbar object will add url property contain our delete all route
 ```
 
 ### **server side**
-in server-side will receive request containing ids 
-after that do our delete mission
+in server-side we will receive request containing ids list,
+ after that we will do our delete mission
 ```php
 
 public function destroyAll(Request $request){

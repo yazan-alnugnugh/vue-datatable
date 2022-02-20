@@ -4,19 +4,21 @@
   2. [Installation and Setup](2-Installation-and-Setup.md)
   3. [Configuration](3-Configuration.md)
   4. [Usage](4-Usage.md)
+  5. [Donations](https://github.com/yazan-alnugnugh/laravel-datatable/blob/master/_docs/Donations/crypto/index.md)
+
 
 
 ## Requirements
 
 * [Vue.js](https://vuejs.org/)  => 2.x
-* [Laravel](http://laravel.com/docs/) => 7.x
-* [Tailwind](https://tailwindcss.com/) => 1.*
+* [Laravel](http://laravel.com/docs/) => 8.x
+* [Tailwind](https://tailwindcss.com/) => 3.*
 
 
 ## Installation
 
 
-for install and setup them we will work on the server-side and client-side , using few steps 
+To install and setup the packages we will work on the server-side and the client-side , using a few steps:
 ## server side 
 
 #### step 1
@@ -27,10 +29,10 @@ composer require yazan/laravel-datatable
 
 create grid class 
 ```bash
-php artisan make:grid-class exampleGrid
+php artisan make:data-grid exampleGrid
 ```
 
-## clint side
+## client side
 
 #### step 1 
 ```bash

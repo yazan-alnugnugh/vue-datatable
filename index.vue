@@ -104,6 +104,7 @@ import Alert from "./Alert.vue";
 import ToolBar from "./ToolBar.vue";
 
 export default {
+    name: 'DataTable',
     props: {
         config: {
             type: Object,

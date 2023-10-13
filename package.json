@@ -1,8 +1,8 @@
 {
   "name": "@yazan.alnughnugh/vue-datatable",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "this datatable to make your programming more easy ",
-  "main": "index.js",
+  "main": "Index.vue",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

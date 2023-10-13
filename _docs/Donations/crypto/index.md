@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Table of contents
 
   1. [Introduction](https://github.com/yazan-alnugnugh/laravel-datatable/blob/master/_docs/1-introduction.md)
@@ -8,6 +9,8 @@
     
 
 
+=======
+>>>>>>> 88c531d86c64fa83b581de03cc2149dab3cf769d
 
 ## BTC
 

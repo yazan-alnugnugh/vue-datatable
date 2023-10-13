@@ -12,33 +12,34 @@
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
                 <p class="text-sm text-gray-700">
-                    Showing
+                    {{trans('showing')}}
                     {{ ' ' }}
                     <span class="font-medium">{{ collection.from }}</span>
                     {{ ' ' }}
-                    to
+                    {{trans('to')}}
                     {{ ' ' }}
                     <span class="font-medium">{{ collection.to }}</span>
                     {{ ' ' }}
-                    of
+                    {{trans('of')}}
                     {{ ' ' }}
                     <span class="font-medium">{{ collection.total }}</span>
                     {{ ' ' }}
-                    results
+                    {{trans('results')}}
                 </p>
             </div>
             <div v-if="collection.total > collection.per_page">
                 <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
 
-                    <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
+                    <!-- Current: "z-10 bg-blue-50 border-blue-500 text-blue-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
                     <a
                         v-for="(link, index) in collection.links"
                         aria-current="page"
                         class=" relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                        :class="[link.active ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50', {'cursor-pointer': link.url}]"
+                        :class="[link.active ? 'z-10 bg-blue-50 border-blue-500 text-blue-600' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50', {'cursor-pointer': link.url}]"
                         @click.prevent="current(link)"
                         v-html="link.label"
                     >
+
                     </a>
 
                 </nav>
@@ -53,6 +54,26 @@
 export default {
 
     props: ['collection'],
+    data: function (){
+        return {
+            language: {
+                ar: {
+                    showing: "يظهر ",
+                    results: "نتيجة ",
+                    of: "من ",
+                    to: "إلى ",
+
+                },
+                en: {
+                    showing: "Showing",
+                    results: "Results",
+                    of: "Of",
+                    to: "to ",
+
+                },
+            },
+        }
+    },
     methods: {
         current: function(link){
 

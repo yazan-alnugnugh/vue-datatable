@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-    <div class="flex flex-col">
+    <div class="flex flex-col bg-white shadow-xl p-5 pb-20 rounded">
 
         <data-table-alert ref="dataTableAlert"></data-table-alert>
         <search v-if="!config.hasOwnProperty('search') || config.search.show != false"></search>
@@ -12,72 +12,76 @@
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
 
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-white-200">
+                        <thead class=" text-gray-600 bg-gray-50">
                         <tr>
 
-                            <th scope="col" class="px-6 py-3 text-left align-middle text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        <!-- check All rows -->
 
-                                <label class="cursor-pointer inline-flex items-center mt-3 select-none">
+                            <th scope="col" class="px-6 py-3 text-center align-middle text-xs font-bold  uppercase tracking-wider">
+
+                                <label class=" cursor-pointer inline-flex items-center mt-3 select-none">
                                     <input @click="selectAll()" type="checkbox" id="SelectAll" class="cursor-pointer form-checkbox h-5 w-5 mr-2 text-blue-400 rounded focus:ring-0 " >
-                                    Select All
                                 </label>
 
-
-
-
                             </th>
+                                 <!-- End check All rows -->
 
-                            <!--           head of table             -->
-                            <th v-if="column.show != false" v-for="(column, index) in tableColumns" scope="col" class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">
+                            <template  v-for="(column, index) in tableColumns">  
+                                 <!--           head of table             -->
+                            <th v-if="column.show != false" scope="col" class="cursor-pointer px-6 py-3 text-center text-xs font-bold   tracking-wider">
                                 {{ column.label }}
                                 <i v-if="column.sort.sortable != false"
-                                   @click="sortAble().changeSortDir({
+                                    @click="sortAble().changeSortDir({
                                 'index': index,
                                 'event': $event,
                                 'dir': column.sort.sortDir,
-                                'column': column.sort.sortColumn
+                                'column': column.sort.sortColumn,
+                                 'type': column.sort.type || 'normal',
+                                'table': column.sort.table || null,
+                                'foreign_key': column.sort.foreign_key || null,
+                                'primary': column.sort.primary || null,
                                 })"
                                    class="fas "
                                    :class="sortAble().dirExists(column.sort.sortDir) == 'asc' ? 'fa-angle-up': 'fa-angle-down'"></i>
                             </th>
+                            </template>  
 
-                            <th class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">Action</th>
+                            <th class="cursor-pointer px-6 py-3 text-center text-xs font-bold   tracking-wider">{{trans('action')}}</th>
 
 
 
 
-                            <!--                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-                            <!--                                Title-->
-                            <!--                            </th>-->
 
-                            <th scope="col" class="relative px-6 py-3">
-                                <span class="sr-only">Edit</span>
-                            </th>
                         </tr>
                         </thead>
 
                         <tbody class="bg-white divide-y divide-gray-200">
 
-                        <tr v-for="(model, index) in collection.data" :key="model.id">
+                        <tr class="even:bg-slate-50" v-for="(model, index) in collection.data" :key="model.id">
 
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <!-- checkbox column -->
+                            <td class="text-center  px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <label class="inline-flex items-center mt-3">
                                     <input v-model="selectedList" :value="model.id" type="checkbox" class="selectInput form-checkbox h-5 w-5 text-blue-400 rounded focus:ring-0" >
                                 </label>
                             </td>
+                            <!-- End checkbox column -->
 
-                            <td v-for="(column, index) in tableColumns"  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <label class="inline-flex items-center mt-3">
-                                    {{model[column.column]}}
+                            <td v-for="(column, index) in tableColumns"  class="text-center px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <label class="inline-flex items-center mt-3" v-html="model[column.column]">
                                 </label>
                             </td>
 
-                            <td   class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td   class="text-center px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 
-                                <label v-if="button[1]" v-for="button in model.action" v-html="button[0]" class="inline-flex ml-2 items-center mt-3">
+                                <template v-for="button in model.action">
 
-                                </label>
+                                    <label v-if="button[1]"  v-html="button[0]" class="inline-flex ml-2 items-center mt-3">
+
+                                    </label>
+
+                                </template>
                             </td>
 
 
@@ -94,12 +98,13 @@
 
 <script>
 
-import Pagination from "./Pagination";
-import Search from "./Search";
-import Alert from "./Alert";
-import ToolBar from "./ToolBar";
+import Pagination from "./Pagination.vue";
+import Search from "./Search.vue";
+import Alert from "./Alert.vue";
+import ToolBar from "./ToolBar.vue";
 
 export default {
+    name: 'DataTable',
     props: {
         config: {
             type: Object,
@@ -131,8 +136,8 @@ export default {
         },
 
         filters:{
-            type:Object,
-            default: function(){
+          type:Object,
+          default: function(){
                 return {
                     selection:{
                         show: true,
@@ -150,13 +155,22 @@ export default {
                 return []
             }
         }
-    },
+},
     data() {
         return {
+            language: {
+                ar: {
+                    action: "الأحداث",
+
+                },
+                en: {
+                    action: "Action",
+                },
+            },
             requests: {
                 search: '',
                 perPage: 10,
-                relation: {},
+                select: {},
                 sort:{}
             },
             collection: {},
@@ -217,6 +231,10 @@ export default {
                     return {
                         sortDir: this.sortAble().dirToggle(cur.index, cur.dir),
                         column: cur.column,
+                        type: cur.type,
+                        table: cur.table,
+                        foreign_key: cur.foreign_key,
+                        primary: cur.primary,
                     }
                 },
                 dirExists: (dir) =>{
@@ -226,7 +244,7 @@ export default {
                 dirToggle: (index, dir) =>{
 
                     let newDir = this.sortAble().dirExists(dir);
-                    newDir = newDir == 'asc' ? 'desc' : 'asc';
+                        newDir = newDir == 'asc' ? 'desc' : 'asc';
                     this.tableColumns[index].sort.sortDir = newDir;
 
                     return newDir;
@@ -242,14 +260,13 @@ export default {
             }
 
         }
-        ,
+       ,
         selectAll(){
-            const $selectedInputs = document.getElementsByClassName('selectInput');
-
-            this.selectedList.length && !this.selectedAll ?  this.selectedList = [] : '';
-            setTimeout(() =>  [...$selectedInputs].forEach(cur => cur.click()), 0)
-            this.selectedAll = !this.selectedAll;
-
+          const $selectedInputs = document.getElementsByClassName('selectInput');
+         
+          this.selectedList.length && !this.selectedAll ? this.selectedList = [] : '';
+          this.selectedList.length && this.selectedAll ? this.selectedList = [] : [...$selectedInputs].forEach(cur => this.selectedList.push(cur.getAttribute('value')));
+          this.selectedAll = !this.selectedAll;
 
         },
         removeSelection:function(){
@@ -262,7 +279,22 @@ export default {
             setTimeout(() =>{
                 let $delete = document.querySelectorAll('.delete');
                 [...$delete].forEach((cur) => {
-                    cur.onclick = () =>{
+                    cur.onclick = (event) =>{
+
+                        // confirm 
+                        if ( cur.classList.contains("confirm")){
+        
+                        var $confirm = confirm('Are you sure');
+                    
+                        if(!$confirm){
+                            event.preventDefault();
+                            return false;
+                        }
+    
+                        }
+                        //end confirm
+
+
                         axios.delete(cur.dataset.route).then( res => {
                             this.dataAlert.setShow().setStatus('success').setMessage( res.data.message).hide(5000);
                             this.all();
@@ -273,6 +305,7 @@ export default {
 
 
         },
+    
 
     },
     mounted() {
@@ -280,7 +313,10 @@ export default {
 
         this.dataAlert = this.$refs.dataTableAlert;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 88c531d86c64fa83b581de03cc2149dab3cf769d
 
 
     }

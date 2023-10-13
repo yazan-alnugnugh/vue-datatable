@@ -313,12 +313,6 @@ export default {
 
         this.dataAlert = this.$refs.dataTableAlert;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 88c531d86c64fa83b581de03cc2149dab3cf769d
-
-
     }
 }
 

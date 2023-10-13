@@ -13,7 +13,7 @@
 
                              <!--   per page selection   -->
                 <div v-if="!$parent.$props.hasOwnProperty('perPage') || $parent.$props.perPage.show != false" class="my-2 ml-2 bg-gray-100 w-40		p-2 rounded-lg flex flex-row justify-center items-center shadow-lg">
-                    <div class="w-full ">{{trans('perPage')}} </div>
+                    <div class="w-full ">Per Page </div>
                     <div class=" relative w-full">
                         <select @change="rowsChange()" v-model="perPage" class="focus:ring-blue-400 focus:border-blue-400 block appearance-none w-max bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                             <option v-for="page in $parent.perPage.counts" :value="page">{{ page }}</option>

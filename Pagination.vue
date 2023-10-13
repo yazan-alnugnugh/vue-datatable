@@ -12,19 +12,19 @@
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
                 <p class="text-sm text-gray-700">
-                    {{trans('showing')}}
+                    Showing   
                     {{ ' ' }}
                     <span class="font-medium">{{ collection.from }}</span>
                     {{ ' ' }}
-                    {{trans('to')}}
+                    To
                     {{ ' ' }}
                     <span class="font-medium">{{ collection.to }}</span>
                     {{ ' ' }}
-                    {{trans('of')}}
+                   Of
                     {{ ' ' }}
                     <span class="font-medium">{{ collection.total }}</span>
                     {{ ' ' }}
-                    {{trans('results')}}
+                    Results
                 </p>
             </div>
             <div v-if="collection.total > collection.per_page">

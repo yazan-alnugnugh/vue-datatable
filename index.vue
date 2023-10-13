@@ -47,7 +47,7 @@
                             </th>
                             </template>  
 
-                            <th class="cursor-pointer px-6 py-3 text-center text-xs font-bold   tracking-wider">{{trans('action')}}</th>
+                            <th class="cursor-pointer px-6 py-3 text-center text-xs font-bold   tracking-wider">Action</th>
 
 
 
@@ -158,15 +158,7 @@ export default {
 },
     data() {
         return {
-            language: {
-                ar: {
-                    action: "الأحداث",
-
-                },
-                en: {
-                    action: "Action",
-                },
-            },
+         
             requests: {
                 search: '',
                 perPage: 10,
